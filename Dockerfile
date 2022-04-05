@@ -15,10 +15,10 @@ RUN apt-get update
 RUN apt-get install -y libpulse0:i386 pulseaudio:i386
 
 # We need ssh to access the docker container, wget to download skype
-RUN apt-get install -y openssh-server wget 
+RUN apt-get install -y openssh-server wget libatk-bridge2.0-0 libatk1.0-0 libatspi2.0-0 libcairo2 libdrm2 libgbm1 libgdk-pixbuf2.0-0 libgtk-3-0 libnspr4  libnss3 libpango-1.0-0 libsecret-1-0 libxcomposite1 libxdamage1 libxfixes3 libxkbcommon0 libxrandr2 libxshmfence1 gnome-keyring libatomic1
 
 # Install Skype
-RUN wget http://download.skype.com/linux/skype-debian_4.3.0.37-1_i386.deb -O /usr/src/skype.deb
+RUN wget https://repo.skype.com/latest/skypeforlinux-64.deb -O /usr/src/skype.deb
 RUN dpkg -i /usr/src/skype.deb || true
 RUN apt-get install -fy						# Automatically detect and install dependencies
 
@@ -42,7 +42,7 @@ RUN echo "Europe/Prague" > /etc/timezone
 
 # Set up the launch wrapper - sets up PulseAudio to work correctly
 RUN echo 'export PULSE_SERVER="tcp:localhost:64713"' >> /usr/local/bin/skype-pulseaudio
-RUN echo 'PULSE_LATENCY_MSEC=60 skype' >> /usr/local/bin/skype-pulseaudio
+RUN echo 'PULSE_LATENCY_MSEC=60 skypeforlinux' >> /usr/local/bin/skype-pulseaudio
 RUN chmod 755 /usr/local/bin/skype-pulseaudio
 
 
